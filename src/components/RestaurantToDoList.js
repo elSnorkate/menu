@@ -1,4 +1,3 @@
-// components/RestaurantToDoList.js
 import React, { useState } from 'react';
 import RestaurantToDoListDisplay from './RestaurantToDoListDisplay';
 import { renderToString } from 'react-dom/server';
@@ -76,40 +75,57 @@ const RestaurantToDoList = () => {
     }
   };
 
+  const handleKeyPress = (event, category) => {
+    if (event.key === 'Enter') {
+      switch (category) {
+        case 'Entrada':
+          handleAddTask('Entrada', entradaInput);
+          break;
+        case 'Bebidas y Postres':
+          handleAddTask('Bebidas y Postres', bebidasPostresInput);
+          break;
+        case 'Platos a la Carta':
+          handleAddTask('Platos a la Carta', platosCartaInput);
+          break;
+        case 'Platos':
+          handleAddTask('Platos', platosInput);
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   const handleOpenInNewTab = () => {
     const newTab = window.open('', '_blank');
-    newTab.document.body.innerHTML = `
-      <div style="padding: 20px;">
-        <button onclick="window.close()">Close Tab</button>
-        ${renderToString(<RestaurantToDoListDisplay
-          entradaTasks={entradaTasks}
-          bebidasPostresTasks={bebidasPostresTasks}
-          platosCartaTasks={platosCartaTasks}
-          platosTasks={platosTasks}
-        />)}
-      </div>
-    `;
+    newTab.document.body.innerHTML = renderToString(<RestaurantToDoListDisplay
+      entradaTasks={entradaTasks}
+      bebidasPostresTasks={bebidasPostresTasks}
+      platosCartaTasks={platosCartaTasks}
+      platosTasks={platosTasks}
+    />);
   };
 
   return (
     <div>
-      <h1>Restaurant To-Do List</h1>
+      <h1>Menu del dia </h1>
 
       <div>
         <h3>Entrada</h3>
         <input
           type="text"
-          placeholder="Enter task"
+          placeholder="Insertar opcion aqui"
           value={entradaInput}
           onChange={(e) => setEntradaInput(e.target.value)}
+          onKeyPress={(e) => handleKeyPress(e, 'Entrada')}
         />
-        <button onClick={() => handleAddTask('Entrada', entradaInput)}>Add Task</button>
+        <button onClick={() => handleAddTask('Entrada', entradaInput)}>Añadir</button>
       </div>
       <ul>
         {entradaTasks.map((task, index) => (
           <li key={index}>
             {task}
-            <button onClick={() => removeTask('Entrada', index)}>Remove</button>
+            <button onClick={() => removeTask('Entrada', index)}>Remover</button>
           </li>
         ))}
       </ul>
@@ -118,36 +134,18 @@ const RestaurantToDoList = () => {
         <h3>Bebidas y Postres</h3>
         <input
           type="text"
-          placeholder="Enter task"
+          placeholder="Insertar opcion aqui"
           value={bebidasPostresInput}
           onChange={(e) => setBebidasPostresInput(e.target.value)}
+          onKeyPress={(e) => handleKeyPress(e, 'Bebidas y Postres')}
         />
-        <button onClick={() => handleAddTask('Bebidas y Postres', bebidasPostresInput)}>Add Task</button>
+        <button onClick={() => handleAddTask('Bebidas y Postres', bebidasPostresInput)}>Añadir</button>
       </div>
       <ul>
         {bebidasPostresTasks.map((task, index) => (
           <li key={index}>
             {task}
-            <button onClick={() => removeTask('Bebidas y Postres', index)}>Remove</button>
-          </li>
-        ))}
-      </ul>
-
-      <div>
-        <h3>Platos a la Carta</h3>
-        <input
-          type="text"
-          placeholder="Enter task"
-          value={platosCartaInput}
-          onChange={(e) => setPlatosCartaInput(e.target.value)}
-        />
-        <button onClick={() => handleAddTask('Platos a la Carta', platosCartaInput)}>Add Task</button>
-      </div>
-      <ul>
-        {platosCartaTasks.map((task, index) => (
-          <li key={index}>
-            {task}
-            <button onClick={() => removeTask('Platos a la Carta', index)}>Remove</button>
+            <button onClick={() => removeTask('Bebidas y Postres', index)}>Remover</button>
           </li>
         ))}
       </ul>
@@ -156,22 +154,43 @@ const RestaurantToDoList = () => {
         <h3>Platos</h3>
         <input
           type="text"
-          placeholder="Enter task"
+          placeholder="Insertar opcion aqui"
+          value={platosCartaInput}
+          onChange={(e) => setPlatosCartaInput(e.target.value)}
+          onKeyPress={(e) => handleKeyPress(e, 'Platos a la Carta')}
+        />
+        <button onClick={() => handleAddTask('Platos a la Carta', platosCartaInput)}>Añadir</button>
+      </div>
+      <ul>
+        {platosCartaTasks.map((task, index) => (
+          <li key={index}>
+            {task}
+            <button onClick={() => removeTask('Platos a la Carta', index)}>Remover</button>
+          </li>
+        ))}
+      </ul>
+
+      <div>
+        <h3>Platos a la carta</h3>
+        <input
+          type="text"
+          placeholder="Insertar opcion aqui"
           value={platosInput}
           onChange={(e) => setPlatosInput(e.target.value)}
+          onKeyPress={(e) => handleKeyPress(e, 'Platos')}
         />
-        <button onClick={() => handleAddTask('Platos', platosInput)}>Add Task</button>
+        <button onClick={() => handleAddTask('Platos', platosInput)}>Añadir</button>
       </div>
       <ul>
         {platosTasks.map((task, index) => (
           <li key={index}>
             {task}
-            <button onClick={() => removeTask('Platos', index)}>Remove</button>
+            <button onClick={() => removeTask('Platos', index)}>Remover</button>
           </li>
         ))}
       </ul>
-
-      <button onClick={handleOpenInNewTab}>Open in New Tab (Without Inputs)</button>
+      
+      <button onClick={handleOpenInNewTab}>Servir</button>
     </div>
   );
 };

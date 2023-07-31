@@ -1,7 +1,7 @@
-// components/RestaurantToDoListDisplay.js
 import React from 'react';
 
 const RestaurantToDoListDisplay = ({ entradaTasks, bebidasPostresTasks, platosCartaTasks, platosTasks }) => {
+
   return (
     <div>
       <h1>Restaurant To-Do List (Display)</h1>
